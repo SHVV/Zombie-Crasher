@@ -122,7 +122,7 @@ function select_level() {
     }
     text += tag;
   }
-  levels_table.innerHTML = text + "<a style='position:absolute;left:16px;bottom:36px;width:150px' id=\"main_menu_btn\" class=\"btn_class\" onclick='main_menu();' href=\"#\">&lt; Main menu</a></div><div style='position:absolute;width:150px;height:150px;bottom:-30px;right:-40px;'><object type=\"image/svg+xml\" data=\"img/splash.svgz\" width=\"150\" height=\"150\"></div>";
+  levels_table.innerHTML = text + "<a style='position:absolute;left:16px;bottom:36px;width:150px' id=\"main_menu_btn\" class=\"btn_class\" onclick='main_menu();' href=\"#\">&lt; Main menu</a></div><div style='position:absolute;width:150px;height:150px;bottom:-30px;right:-40px;'><object type=\"image/svg+xml\" data=\"img/splash.svg\" width=\"150\" height=\"150\"></div>";
   
   switch_div('form_levels');
 }
