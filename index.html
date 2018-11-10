@@ -1,0 +1,227 @@
+<!doctype html>
+	
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<head>
+    <title>Zombie crasher</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <!-- CSS reset -->
+    <link rel="stylesheet" href="css/html5reset-1.6.1.css" type="text/css" />
+    <!-- Loading pop-up styling -->
+    <link rel="stylesheet" href="css/default.css" type="text/css" />
+    <link rel="stylesheet" href="css/animation.css" type="text/css" />
+    <!-- Loading PokkiBrowser to do testing in a normal chrome web browser -->
+    <script type="text/javascript" src="js/lib/PokkiBrowser.js"></script>
+    <!-- Loading SmoothScroll to make the scrollbars scroll more smoothly (it's really smooth!) -->
+    <script type="text/javascript" src="js/lib/SmoothScroll.js"></script>
+    <!-- Loading Google Analytics for Pokki wrapper -->
+    <script type="text/javascript" src="js/lib/GAPokki.js"></script>
+    <!-- Loading utility class for localStorage interaction -->
+    <script type="text/javascript" src="js/lib/LocalStore.js"></script>
+    
+    <!-- Game files -->
+    <script type="text/javascript" src="js/Box2dWeb-2.1.a.3.js"></script>
+    <script type="text/javascript" src="js/audio.js"></script>
+    <script type="text/javascript" src="js/math2.js"></script>
+    <script type="text/javascript" src="js/mat22.js"></script>
+    <script type="text/javascript" src="js/vec2.js"></script>
+    <script type="text/javascript" src="js/trans2.js"></script>
+    <script type="text/javascript" src="js/utils.js"></script>
+    <script type="text/javascript" src="js/context_ex.js"></script>
+    <script type="text/javascript" src="js/particles.js"></script>
+    <script type="text/javascript" src="js/game_object.js"></script>
+    <script type="text/javascript" src="js/controllable_object.js"></script>
+    <script type="text/javascript" src="js/simple_car.js"></script>
+    <script type="text/javascript" src="js/arcade_car.js"></script>
+    <script type="text/javascript" src="js/hover.js"></script>
+    <script type="text/javascript" src="js/mechmind.js"></script>
+    <script type="text/javascript" src="js/animation_mixer.js"></script>
+    <script type="text/javascript" src="js/pedestrian_anim.js"></script>
+    <script type="text/javascript" src="js/zombie_anim.js"></script>
+    <script type="text/javascript" src="js/pedestrian.js"></script>
+    <script type="text/javascript" src="js/base_app.js"></script>
+    <script type="text/javascript" src="js/levels.js"></script>
+    <script type="text/javascript" src="js/application.js"></script>
+
+    <!-- Loading application files -->
+    <script type="text/javascript" src="js/app.js"></script>
+    <!-- Loading pop-up logic -->
+    <script type="text/javascript" src="js/popup.js"></script>
+  </head>
+<body bgcolor="F0F0F0">
+  <div style="width: 900px; height: 700px; position: relative;">
+  <div id="form_main_menu" style="position:absolute;top:0px;left:0px;text-align:center; display:block;">
+    <img src="img/menu1.png">
+    <div class="right_pane">
+      <h1>Zombie Crasher</h1>
+      <h2>Goal</h2>
+      <p>Kill all <font color="green"><b>zombies</b></font> on level and protect <b>people</b> from them.<br/>Hint: hitting zombie by left or right car's side gets more points.</p>
+      <h2>Controls</h2>
+      <p>Use <b>arrows</b> to handle your car, <b>spacebar</b> for handbrake.</p>
+      <p style="margin-top:15px;">Powered by Box2d and brains.</p>
+      <p>Music by Kaleb Wurr.</p>
+      <a id="play_btn" class="btn_class" href="#">Play the game &gt;</a>
+    </div>
+  </div>
+  <div id="form_levels" style="position:absolute;top:0px;left:0px;width:100%;height:100%;text-align:center; display:none;background-color:white;"></div>
+  <div id="form_game" style="position:absolute;top:0px;left:0px;text-align:center; display:none;">
+    <div style="position:absolute;top:0px;width:100%;height:100%;text-align:center;">
+      <div id="zombie_counter_div">
+        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="0.3in" height="0.5in" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd"
+       viewBox="1200 2000 5000 7000">
+         <defs>
+          <style type="text/css">
+           <![CDATA[
+            .str0 {stroke:#00923F;stroke-width:600;stroke-linecap:round;stroke-linejoin:round}
+            .fil1 {fill:none}
+            .fil0 {fill:#00923F}
+           ]]>
+          </style>
+         </defs>
+         <g id="Layer 1">
+          <circle class="fil0" cx="3471" cy="2868" r="600"/>
+          <path class="fil1 str0" d="M3348 3213l-151 424c0,0 -141,495 -106,1007 36,513 318,1220 318,1220l1220 1095 230 1626"/>
+          <path class="fil1 str0" d="M1518 8391l1202 -1043 689 -1484"/>
+          <path class="fil1 str0" d="M5707 3778l-1184 248 -1326 -230 1043 1025 1202 0"/>
+         </g>
+        </svg> <br/>
+        <span id="zombie_counter">0</span>
+      </div>
+      <div id="score">0</div>
+      <div id="humans_counter_div">
+        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="0.3in" height="0.5in" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd"
+       viewBox="1000 2000 5000 7000">
+         <defs>
+          <style type="text/css">
+           <![CDATA[
+            .str1 {stroke:#1F1A17;stroke-width:600;stroke-linecap:round;stroke-linejoin:round}
+            .fil1 {fill:none}
+            .fil2 {fill:#1F1A17}
+           ]]>
+          </style>
+         </defs>
+         <g id="Layer 1">
+          <circle class="fil2" cx="3842" cy="2948" r="600"/>
+          <path class="fil1 str1" d="M3719 3177l-221 442c-3,7 -54,159 -106,778 -53,618 17,1467 17,1467l1326 830 265 1750"/>
+          <path class="fil1 str1" d="M1289 7772l1449 -565 671 -1343"/>
+          <path class="fil1 str1" d="M5495 4715l-1237 -88 -760 -1008 -1308 654 -424 1220"/>
+         </g>
+        </svg> <br/>
+        <span id="humans_counter">0</span>
+      </div>
+      <a id="mute_btn" style="position:absolute;left:10px;bottom:10px;" href="#" class="mute_svg">
+        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="0.666661in" height="0.666661in" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd"
+             viewBox="0 0 666 666">
+         <defs>
+          <style type="text/css">
+           <![CDATA[
+            .mute_svg {fill:#A0A0A0;-webkit-transition: fill 0.3s linear;}
+            .mute_svg_stoke {stroke:#C0C0C0;stroke-width:56}
+            .fill_none {fill:none}
+            .mute_svg:hover {fill: #505050}
+           ]]>
+          </style>
+         </defs>
+         <g id="Layer 1">
+          <path d="M500 83l0 500 -167 -167 0 -166 167 -167z"/>
+          <path d="M166 250l125 0 0 166 -125 0 0 -166z"/>
+         </g>
+         <g id="sound_disabled_icon" style="display:none;">
+          <circle class="fill_none mute_svg_stoke" cx="333" cy="333" r="250"/>
+          <path class="fill_none mute_svg_stoke" d="M166 500l334 -334"/>
+         </g>
+        </svg>
+      </a>
+      <a id="replay_btn2"  href="#" style="position:absolute;bottom:16px;right:16px" title="Replay level" class="mute_svg" onclick="replay_level();">
+        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="0.666661in" height="0.666661in" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd"
+             viewBox="0 0 666 666">
+         <g id="Layer 1">
+          <path d="M0 333l83 83 83 -83 -166 0zm105 202c43,67 153,104 228,104 167,-1 305,-139 306,-306 -1,-167 -139,-305 -306,-306 -167,1 -305,139 -306,306l112 0c0,-107 87,-194 194,-194 107,0 194,87 194,194 0,107 -87,194 -194,194 -55,0 -106,-23 -143,-62 -1,-1 -1,-2 -2,-3l0 73 -83 0z"/>
+         </g>
+        </svg>
+      </a>
+      <a id="menu_btn2" href="#"style="position:absolute;bottom:80px;right:16px" title="Select level" class="list_icon2_str" onclick="select_level();">
+        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="0.666661in" height="0.666661in" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd"
+             viewBox="0 0 666 666">
+         <defs>
+          <style type="text/css">
+           <![CDATA[
+            .list_icon2_str {stroke:#A0A0A0;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;-webkit-transition: stroke 0.3s linear;}
+            .list_icon2_str:hover {stroke:#505050;}
+           ]]>
+          </style>
+         </defs>
+         <g id="Layer 1">
+          <path class="fil1" d="M125 166l416 0"/>
+          <path class="fil1" d="M125 333l416 0"/>
+          <path class="fil1" d="M125 500l416 0"/>
+         </g>
+        </svg>
+      </a>
+    </div>
+    <canvas id="canvas" width="900" height="700"></canvas>
+    <div id="overlay"></div>
+    <div id="end_level_dlg" class="pop_win" style="position:absolute;width:360px;height:220px;">
+      <h1 id="level_result">You lose the game</h1>
+      <p id="result_score" class="results">Score: -13</p>
+      <p id="result_saved" class="results">People saved: 2/8</p>
+      <p id="level_stars" class="results">Bad</p>      
+      <a id="replay_btn"  href="#" style="position:absolute;bottom:16px;left:16px" title="Replay level" class="fil_black">
+        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="0.666661in" height="0.666661in" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd"
+             viewBox="0 0 666 666">
+         <defs>
+          <style type="text/css">
+           <![CDATA[
+            .fil_black {fill:#505050;-webkit-transition: fill 0.3s linear;}
+            .fil_black:hover {fill:#000000}
+           ]]>
+          </style>
+         </defs>
+         <g id="Layer 1">
+          <path d="M0 333l83 83 83 -83 -166 0zm105 202c43,67 153,104 228,104 167,-1 305,-139 306,-306 -1,-167 -139,-305 -306,-306 -167,1 -305,139 -306,306l112 0c0,-107 87,-194 194,-194 107,0 194,87 194,194 0,107 -87,194 -194,194 -55,0 -106,-23 -143,-62 -1,-1 -1,-2 -2,-3l0 73 -83 0z"/>
+         </g>
+        </svg>
+      </a>
+      <a id="menu_btn" href="#"style="position:absolute;bottom:16px;left:163px" title="Select level" class="list_icon_str">
+        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="0.666661in" height="0.666661in" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd"
+             viewBox="0 0 666 666">
+         <defs>
+          <style type="text/css">
+           <![CDATA[
+            .list_icon_str {stroke:#505050;stroke-width:100;stroke-linecap:round;stroke-linejoin:round;-webkit-transition: stroke 0.3s linear;}
+            .list_icon_str:hover {stroke:#000000;}
+           ]]>
+          </style>
+         </defs>
+         <g id="Layer 1">
+          <path class="fil1" d="M125 166l416 0"/>
+          <path class="fil1" d="M125 333l416 0"/>
+          <path class="fil1" d="M125 500l416 0"/>
+         </g>
+        </svg>
+      </a>
+      <a id="next_btn" href="#" style="position:absolute;bottom:16px;right:16px" title="Next level" class="list_icon_str">
+        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="0.666661in" height="0.666661in" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd"
+             viewBox="0 0 666 666">
+         <g id="Layer 1">
+          <path class="fil1" d="M 50,56 327, 333 50,610"/>
+          <path class="fil1" d="M 330,56 607, 333 330,610"/>
+         </g>
+        </svg>
+      </a>
+    </div>
+    <p style="display:none;">
+  	  <select id="selDRIVE">
+  	  	<option value="RWD">RWD</option>
+  	  	<option value="FWD">FWD</option>
+  	  	<option value="AWD" selected="selected">AWD</option>
+  	  </select>
+      <input type="checkbox" checked="checked" id="chABS" onchange>ABS
+      <input type="checkbox" checked="checked" id="chTCS" onchange>TCS
+      <input type="checkbox" checked="checked" id="chSTEER" onchange>Steering control
+    </p>
+    <p id="debug" style="display:none;"></p>
+  </div>
+  <a id="minimize" href="#"></a>
+  </div>
+</body>
+</html>
