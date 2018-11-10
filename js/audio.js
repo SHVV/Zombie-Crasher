@@ -147,7 +147,7 @@ AudioEngine.prototype.play = function(buffer_idx, setup)
       gain_node.gain.value = setup.gain;
     }
   }
-  source.noteOn(0);
+  source.start(0);
 }
 
 AudioEngine.prototype.sound_singleton = function(buffer_idx, initial_setup)
@@ -255,7 +255,7 @@ SoundSingleton.prototype.play = function()
   console.log("singleton play begin");
   if (this.state != SoundState.READY && this.state != SoundState.PAUSED ) return;  
   this.init_impl();
-  this.source.noteOn(0);
+  this.source.start(0);
   this.state = SoundState.PLAYING;
   console.log("singleton play end");
 }
@@ -264,7 +264,7 @@ SoundSingleton.prototype.stop = function()
 {  
   console.log("singleton stop begin");
   if (this.state != SoundState.PLAYING && this.state != SoundState.PAUSED) return;
-  this.source.noteOff(0);  
+  this.source.stop();  
   this.state = SoundState.READY;
   console.log("singleton stop end");
 }
