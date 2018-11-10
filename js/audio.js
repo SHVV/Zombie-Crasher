@@ -127,7 +127,7 @@ AudioEngine.prototype.play = function(buffer_idx, setup)
 {
   if (!this.loaded || this.paused) return;
   //console.log("audio.play("+buffer_idx+")");
-  var gain_node = this.context.createGainNode();
+  var gain_node = this.context.createGain();
   var source = this.context.createBufferSource();
   source.buffer = this.buffers[buffer_idx]; 
 
@@ -217,7 +217,7 @@ SoundSingleton.prototype.init = function(initial_setup)
 
 SoundSingleton.prototype.init_impl = function()
 {
-  this.gain_node = this.engine.context.createGainNode();
+  this.gain_node = this.engine.context.createGain();
   this.source = this.engine.context.createBufferSource();
   this.source.buffer = this.buffer;
   // Connect source to a gain node
