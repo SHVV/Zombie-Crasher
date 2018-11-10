@@ -176,7 +176,7 @@ function turn_popup(element, on) {
 //   str - string to output
 //------------------------------------------------------------------------------
 var Debug = {
-  enable: true,
+  enable: false,
   output: function(str) {
     if (this.enable) {
       document.getElementById('debug').innerHTML = str;
